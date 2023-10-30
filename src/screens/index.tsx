@@ -19,6 +19,13 @@ export function HomeScreen() {
       setNewTecnology("");
     }
   }
+
+  function handleTecnologyDone(id:string){
+
+  }
+  function handleTecnologyDeleted(id:string){
+    
+  }
   return (
     <View style={styles.container}>
       <Header
