@@ -3,7 +3,14 @@ import { styles } from "./styles";
 import { AntDesign } from "@expo/vector-icons";
 import { theme } from "../../theme";
 
-export function Header() {
+
+type HeaderProps ={
+  tecnology: string,
+  onChangeText:(tecnology:string) => void
+  onPress: () => void
+}
+
+export function Header({tecnology,onChangeText, onPress}:HeaderProps) {
   return (
     <View style={styles.headerContainer}>
       <Text style={styles.title}>Minhas Tecnologias</Text>
@@ -12,9 +19,11 @@ export function Header() {
           style={styles.input}
           placeholder="Adicione uma nova tecnologia"
           placeholderTextColor={theme.colors.base.gray300}
+          value={tecnology}
+          onChangeText={onChangeText}
           underlineColorAndroid="transparent"
         />
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={onPress}>
           <AntDesign name="pluscircleo" size={15} color="white" />
         </TouchableOpacity>
       </View>
