@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Alert } from "react-native";
 import { styles } from "./styles";
 import { Header } from "../components/header";
 import { Task } from "../components/tasks";
@@ -20,12 +20,24 @@ export function HomeScreen() {
     }
   }
 
-  function handleTecnologyDone(id:string){
+  function handleTecnologyDone(id: string) {
+    setList((item) =>
+      item.map((item) => {
+        item.id === id ? (item.isCompleted = !item.isCompleted) : null;
+        return item;
+      })
+    );
+  }
+  function handleTecnologyDeleted(id: string) {
+    Alert.alert("Excluir Tarefa", "Are you sure about it");
+    setList((list) => list.filter((list) => list.id !== id));
+  }
 
-  }
-  function handleTecnologyDeleted(id:string){
-    
-  }
+  const totalTecnologysCreated = list.length;
+  const totalTecnologysDone = list.filter(
+    ({ isCompleted }) => isCompleted
+  ).length;
+
   return (
     <View style={styles.container}>
       <Header
@@ -38,24 +50,25 @@ export function HomeScreen() {
           <View style={styles.row}>
             <Text style={styles.tasksCreated}>Criadas</Text>
             <View style={styles.counterContainer}>
-              <Text style={styles.counterText}>0</Text>
+              <Text style={styles.counterText}>{totalTecnologysCreated}</Text>
             </View>
           </View>
           <View style={styles.row}>
             <Text style={styles.tasksDone}>Concluidas</Text>
             <View style={styles.counterContainer}>
-              <Text style={styles.counterText}>0</Text>
+              <Text style={styles.counterText}>{totalTecnologysDone}</Text>
             </View>
           </View>
         </View>
         <FlatList
           data={list}
-          keyExtractor={(list) => list.id!}
+          keyExtractor={(list) => list.id}
           renderItem={({ item }) => (
             <Task
               key={item.id}
-              title={item.title}
-              isCompleted={item.isCompleted}
+              onTecnologyDone={() => handleTecnologyDone(item.id)}
+              onTecnologyDeleted={() => handleTecnologyDeleted(item.id)}
+              {...item}
             />
           )}
           ListEmptyComponent={<Empty />}
